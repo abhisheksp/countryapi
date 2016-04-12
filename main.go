@@ -7,9 +7,10 @@ import (
 	"net/http"
 )
 
-func main() {
+const GET = "GET"
 
+func main() {
 	router := mux.NewRouter().StrictSlash(true)
-	router.HandleFunc("/", handlers.Captial)
+	router.HandleFunc("/capital/{country}", handlers.Capital).Methods(GET)
 	log.Fatal(http.ListenAndServe(":8080", router))
 }
