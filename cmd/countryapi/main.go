@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/abhisheksp/countryapi/dependencyfactory"
 	"github.com/abhisheksp/countryapi/handlers"
 	"github.com/gorilla/mux"
 	"log"
@@ -16,6 +17,8 @@ func main() {
 	if port == "" {
 		log.Fatal("$PORT must be set")
 	}
+
+	dependencyfactory.InitCountryCapitals()
 
 	router := mux.NewRouter().StrictSlash(true)
 	router.HandleFunc("/capital/{country}", handlers.Capital).Methods(GET)
