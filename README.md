@@ -4,4 +4,4 @@ Request Format : GET /capital/{country}
 
 Example : GET /capital/india
 
-Response Format : {"country":"india","capital":"New Delhi"}
+Response Format : {"country":"india","capital":"New Delhi","error":false}
