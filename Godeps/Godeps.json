@@ -1,9 +1,6 @@
 {
 	"ImportPath": "github.com/abhisheksp/countryapi",
 	"GoVersion": "go1.6",
-	"Packages": [
-		"./..."
-	],
 	"Deps": [
 		{
 			"ImportPath": "github.com/gorilla/context",

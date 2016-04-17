@@ -1,4 +1,4 @@
-package main
+package countryapi
 
 import (
 	"github.com/abhisheksp/countryapi/dependencyfactory"
@@ -11,16 +11,10 @@ import (
 
 const GET = "GET"
 
-func main() {
-	port := os.Getenv("PORT")
-
-	if port == "" {
-		log.Fatal("$PORT must be set")
-	}
-
+func Run(bindAddress string) {
 	dependencyfactory.InitCountryCapitals()
 
 	router := mux.NewRouter().StrictSlash(true)
 	router.HandleFunc("/capital/{country}", handlers.Capital).Methods(GET)
-	log.Fatal(http.ListenAndServe(":"+port, router))
+	log.Fatal(http.ListenAndServe(bindAddress, router))
 }
