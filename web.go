@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"github.com/abhisheksp/countryapi/dependencyfactory"
 	"github.com/abhisheksp/countryapi/handlers"
 	"github.com/gorilla/mux"
 	"log"

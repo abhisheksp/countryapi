@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 	"strings"
+	"net/url"
 )
 
 type CountryInfo struct {
@@ -44,5 +45,19 @@ func Capital(w http.ResponseWriter, r *http.Request) {
 		countryResponse = CountryResponse{Error: true}
 	}
 
-	fmt.Fprintf(w, string(response))
+	params, err := url.ParseQuery(r.URL.RawQuery)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		log.Println("[FATAL]URL parse query failed: ", err.Error())
+		countryResponse = CountryResponse{Error: true}
+	}
+
+	s:= string(response)
+	if value, ok := params["callback"]; ok {
+		w.Header().Set("Content-Type", "text/javascript")
+		s = fmt.Sprintf("%s(%s)", value[0], s)
+	} else {
+		w.Header().Set("Content-Type", "application/json")
+	}
+	fmt.Fprintf(w, s)
 }
