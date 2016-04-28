@@ -24,7 +24,8 @@ func Capital(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	country := strings.ToLower(vars["country"])
 	countryResponse := CountryResponse{}
-	capital, found := dependencyfactory.CountryCapitals[country]
+
+	capital, found := dependencyfactory.CountryCapitals()[country]
 	if !found {
 		w.WriteHeader(http.StatusInternalServerError)
 		log.Println("[INFO]", country, "Invalid Country Name")
@@ -35,11 +36,13 @@ func Capital(w http.ResponseWriter, r *http.Request) {
 			Capital: capital,
 		}
 	}
+
 	response, err := json.Marshal(countryResponse)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		log.Println("[FATAL]", err.Error())
 		countryResponse = CountryResponse{Error: true}
 	}
+
 	fmt.Fprintf(w, string(response))
 }

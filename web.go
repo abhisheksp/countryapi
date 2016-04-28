@@ -1,6 +1,7 @@
-package countryapi
+package main
 
 import (
+	"fmt"
 	"github.com/abhisheksp/countryapi/dependencyfactory"
 	"github.com/abhisheksp/countryapi/handlers"
 	"github.com/gorilla/mux"
@@ -11,10 +12,9 @@ import (
 
 const GET = "GET"
 
-func Run(bindAddress string) {
-	dependencyfactory.InitCountryCapitals()
-
+func main() {
+	bind := fmt.Sprintf("%s:%s", os.Getenv("OPENSHIFT_GO_IP"), os.Getenv("OPENSHIFT_GO_PORT"))
 	router := mux.NewRouter().StrictSlash(true)
 	router.HandleFunc("/capital/{country}", handlers.Capital).Methods(GET)
-	log.Fatal(http.ListenAndServe(bindAddress, router))
+	log.Fatal(http.ListenAndServe(bind, router))
 }

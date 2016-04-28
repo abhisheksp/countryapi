@@ -5,17 +5,23 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"sync"
 )
 
-var CountryCapitals map[string]string
+var once sync.Once
+var countryCapitals map[string]string
 
-func InitCountryCapitals() {
-	capitals, e := ioutil.ReadFile("./jsons/capitals.json")
-	CountryCapitals = make(map[string]string)
-	json.Unmarshal(capitals, &CountryCapitals)
+func CountryCapitals() map[string]string {
+	once.Do(func() {
+		capitals, e := ioutil.ReadFile("./jsons/capitals.json")
+		countryCapitals = make(map[string]string)
 
-	if e != nil {
-		fmt.Printf("File error: %v\n", e)
-		os.Exit(1)
-	}
+		json.Unmarshal(capitals, &countryCapitals)
+		if e != nil {
+			fmt.Printf("File error: %v\n", e)
+			os.Exit(1)
+		}
+	})
+
+	return countryCapitals
 }
